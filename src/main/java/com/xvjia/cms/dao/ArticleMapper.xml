@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xvjia.cms.dao.ArticleMapper">
+	<resultMap id="BaseResultMap"
+		type="com.xvjia.cms.domain.Article">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="picture" property="picture" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="channel_id" property="channelId"
+			jdbcType="INTEGER" />
+		<result column="category_id" property="categoryId"
+			jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="hits" property="hits" jdbcType="INTEGER" />
+		<result column="comments" property="comments" jdbcType="INTEGER" />
+		<result column="hot" property="hot" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="deleted" property="deleted" jdbcType="INTEGER" />
+		<result column="created" property="created"
+			jdbcType="TIMESTAMP" />
+		<result column="updated" property="updated"
+			jdbcType="TIMESTAMP" />
+		<!-- 封装单个java对象 -->
+		<association property="user" javaType="user"
+			column="user_id"
+			select="com.xvjia.cms.dao.UserMapper.selectByPrimaryKey" />
+		<association property="channel" javaType="channel"
+			column="channel_id"
+			select="com.xvjia.cms.dao.ChannelMapper.selectByPrimaryKey" />
+		<association property="category" javaType="category"
+			column="category_id"
+			select="com.xvjia.cms.dao.CategoryMapper.selectByPrimaryKey" />
+
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs"
+		type="com.xvjia.cms.domain.Article" extends="BaseResultMap">
+		<result column="content" property="content"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, picture, channel_id, category_id, user_id, hits,
+		hot, status,
+		deleted,
+		created, updated
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+
+
+
+	<select id="selectByHit" resultMap="BaseResultMap">
+		SELECT * FROM cms_article ORDER BY hits DESC
+	</select>
+	<select id="selectArticleByCount" resultMap="BaseResultMap">
+		SELECT * FROM cms_article  ORDER BY comments DESC
+
+	</select>
+	
+	<update id="updatecomments">
+		UPDATE `cms_1`.`cms_article` SET `comments` = comments+1 WHERE `id` = #{id}; 
+	</update>
+
+	<select id="selectPre" resultMap="BaseResultMap">
+		SELECT a.*,u.nickname FROM
+		cms_article a JOIN cms_user u ON a.user_id =u.id
+		WHERE a.id = ( SELECT
+		id FROM cms_article b WHERE b.channel_id
+		=#{channelId} AND id&gt;#{id}
+		AND
+		STATUS =1 AND deleted =0
+		ORDER BY created
+		ASC LIMIT 1 )
+	</select>
+	<select id="selectNext" resultMap="BaseResultMap">
+		SELECT a.*,u.nickname FROM
+		cms_article a JOIN cms_user u ON a.user_id =u.id
+		WHERE a.id = ( SELECT
+		id FROM cms_article b WHERE b.channel_id
+		=#{channelId} AND id &lt;
+		#{id} AND
+		STATUS =1 AND deleted =0
+		ORDER BY created
+		ASC LIMIT 1 )
+	</select>
+
+	<!-- 文章页面查询 -->
+	<select id="selects" resultMap="BaseResultMap">
+		SELECT a.*,u.`username` FROM cms_article a
+		LEFT JOIN cms_user u ON
+		a.user_id = u.id
+		<where>
+			<if test="channelId != 0 and channelId!=null">
+				and channel_id = #{channelId}
+			</if>
+			<if test="categoryId != 0 and categoryId!=null">
+				and category_id = #{categoryId}
+			</if>
+			<if test="userId != 0 and userId!=null">
+				and a.user_id = #{userId}
+			</if>
+
+			<if test="status!=null and status!=9">
+				and status = #{status}
+			</if>
+			<if test="hot!=null">
+				and hot = #{hot}
+			</if>
+		</where>
+		order by updated desc
+	</select>
+
+
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from cms_article
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from cms_article
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.xvjia.cms.domain.Article">
+		insert into cms_article (id,
+		title, picture,
+		channel_id, category_id, user_id,
+		hits, hot, status,
+		deleted, created, updated,
+		content)
+		values (#{id,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
+		#{picture,jdbcType=VARCHAR},
+		#{channelId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
+		#{userId,jdbcType=INTEGER},
+		#{hits,jdbcType=INTEGER},
+		#{hot,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{deleted,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP},
+		#{updated,jdbcType=TIMESTAMP},
+		#{content,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.xvjia.cms.domain.Article">
+		insert into cms_article
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="summary != null">
+				summary,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="channelId != null">
+				channel_id,
+			</if>
+			<if test="categoryId != null">
+				category_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="hits != null">
+				hits,
+			</if>
+			<if test="hot != null">
+				hot,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="deleted != null">
+				deleted,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+			<if test="updated != null">
+				updated,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=VARCHAR},
+			</if>
+			<if test="channelId != null">
+				#{channelId,jdbcType=INTEGER},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="hits != null">
+				#{hits,jdbcType=INTEGER},
+			</if>
+			<if test="hot != null">
+				#{hot,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="deleted != null">
+				#{deleted,jdbcType=INTEGER},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updated != null">
+				#{updated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective">
+		update cms_article
+		<set>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="picture != null">
+				picture = #{picture},
+			</if>
+			<if test="channelId != null">
+				channel_id = #{channelId},
+			</if>
+			<if test="categoryId != null">
+				category_id = #{categoryId},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,
+			</if>
+			<if test="hits != null">
+				hits = #{hits},
+			</if>
+			<if test="hot != null">
+				hot = #{hot},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="deleted != null">
+				deleted = #{deleted},
+			</if>
+			<if test="created != null">
+				created = #{created},
+			</if>
+			<if test="updated != null">
+				updated = #{updated},
+			</if>
+			<if test="content != null">
+				content = #{content},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.xvjia.cms.domain.Article">
+		update cms_article
+		set title = #{title,jdbcType=VARCHAR},
+		picture = #{picture,jdbcType=VARCHAR},
+		channel_id =
+		#{channelId,jdbcType=INTEGER},
+		category_id =
+		#{categoryId,jdbcType=INTEGER},
+		user_id = #{userId,jdbcType=INTEGER},
+		hits = #{hits,jdbcType=INTEGER},
+		hot = #{hot,jdbcType=INTEGER},
+		status =
+		#{status,jdbcType=INTEGER},
+		deleted = #{deleted,jdbcType=INTEGER},
+		created = #{created,jdbcType=TIMESTAMP},
+		updated =
+		#{updated,jdbcType=TIMESTAMP},
+		content =
+		#{content,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.xvjia.cms.domain.Article">
+		update cms_article
+		set title = #{title,jdbcType=VARCHAR},
+		picture = #{picture,jdbcType=VARCHAR},
+		channel_id =
+		#{channelId,jdbcType=INTEGER},
+		category_id =
+		#{categoryId,jdbcType=INTEGER},
+		user_id = #{userId,jdbcType=INTEGER},
+		hits = #{hits,jdbcType=INTEGER},
+		hot = #{hot,jdbcType=INTEGER},
+		status =
+		#{status,jdbcType=INTEGER},
+		deleted = #{deleted,jdbcType=INTEGER},
+		created = #{created,jdbcType=TIMESTAMP},
+		updated =
+		#{updated,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

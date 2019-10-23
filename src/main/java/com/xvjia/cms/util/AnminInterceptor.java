@@ -16,7 +16,7 @@ public class AnminInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		Object object = request.getSession().getAttribute("user");
+		Object object = request.getSession().getAttribute("admin");
 		if (null==object) {
 			response.sendRedirect("/passport/login");
 			return false;

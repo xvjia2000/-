@@ -17,7 +17,8 @@
 <div class="container-fulid">
 	<nav class="navbar navbar-light bg-light">
 		<a class="navbar-brand" href="/" title="首页"><img alt="CMS"
-			src="/resource/img/RE`ZFG9D]9J`I1JO1[(SFW6.png" width="28%" height="28%"></a>
+			src="/resource/img/RE`ZFG9D]9J`I1JO1[(SFW6.png" width="28%"
+			height="28%"></a>
 
 		<!-- 搜索框：在专业高级二学完ElasticSearch后实现 -->
 		<form class="form-inline">
@@ -37,8 +38,9 @@
 				<%-- 登录显示用户菜单 --%>
 				<c:when test="${sessionScope.user != null}">
 					<li class="nav-item"><a class="nav-link" href="/my/home">
-							<img alt="" src="/resource/images/default_avatar.png"
-							style="max-height: 2.5rem" class="rounded img-fluid">
+							<img alt="" src="/pic/${sessionScope.user.head_picture }"
+							style="max-height: 2.5rem; height: 70px; width: 70px;"
+							class="rounded img-fluid">
 					</a></li>
 					<li class="nav-item">
 						<div class="dropdown" style="padding-top: 0.4rem;">
@@ -49,6 +51,9 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-right"
 								aria-labelledby="dropdownMenuButton">
+
+								<a class="dropdown-item" href="/">返回首页</a>
+								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="/my/">个人主页</a> <a
 									class="dropdown-item" href="#">个人设置</a> <a
 									class="dropdown-item" href="#">我的文章</a>
@@ -61,7 +66,8 @@
 				<c:otherwise>
 					<%-- 未登录显示登录注册链接 --%>
 					<li class="nav-item"><a class="nav-link" href="/passport/reg">注册</a></li>
-					<li class="nav-item"><a class="nav-link" href="/passport/login">登录</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/passport/login">登录</a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>

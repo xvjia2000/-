@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xvjia.cms.domain.Comment;
-import com.xvjia.cms.service.ArticleServcie;
 import com.xvjia.cms.service.CommentService;
 
 /**
@@ -23,9 +22,8 @@ public class CommentController {
 
 	@ResponseBody
 	@PostMapping("insert")
-	public boolean insert(Comment comment,String a) {
+	public boolean insert(Comment comment) {
 		
-		System.out.println("--------------"+a);
 		System.out.println("------------------"+comment);
 		
 		return commentService.insert(comment) > 0;

@@ -14,8 +14,7 @@ import com.xvjia.cms.domain.User;
 import com.xvjia.cms.service.UserService;
 
 /**
- * @author xvjia
- * 	时间2019年9月11日
+ * @author xvjia 时间2019年9月11日
  * 
  */
 @Controller
@@ -24,32 +23,29 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@RequestMapping("selects")
-	public String selects(Model model,@RequestParam(defaultValue  = "")String name,
-			@RequestParam(defaultValue = "1")int pageNum , 
-			@RequestParam(defaultValue = "3")int pageSize) {
-		
+	public String selects(Model model, @RequestParam(defaultValue = "") String name,
+			@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "5") int pageSize) {
+
 		PageInfo<User> info = userService.selects(name, pageNum, pageSize);
 		List<User> list = info.getList();
-		
+
 		model.addAttribute("users", list);
 		model.addAttribute("name", name);
 		model.addAttribute("page", info);
-		
-		
-		
+
 		return "admin/users";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("updateLocked")
 	public boolean updateLocked(User user) {
 //		System.out.println("user-----"+user);
-		
-		user.setLocked(user.getLocked()==1?0:1);
-		
-		return userService.updateByPrimaryKeySelective(user)>0;
+
+		user.setLocked(user.getLocked() == 1 ? 0 : 1);
+
+		return userService.updateByPrimaryKeySelective(user) > 0;
 	}
-	
+
 }

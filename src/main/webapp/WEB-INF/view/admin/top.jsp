@@ -21,7 +21,7 @@
 	<!-- Navbar -->
 	<ul class="navbar-nav ml-auto ml-md-0">
 		<li class="nav-item"><a class="nav-link" href="/my/home"> <img
-				alt="" src="/resource/images/default_avatar.png"
+				alt="" src="/resource/img/RE`ZFG9D]9J`I1JO1[(SFW6.png"
 				style="max-height: 2.5rem" class="rounded img-fluid">
 		</a></li>
 		<li class="nav-item">
@@ -29,7 +29,7 @@
 				<a href="#" class="nav-link dropdown-toggle" role="button"
 					id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false"> <c:out
-						value="${sessionScope.user.nickname}" default="CMS-User" />
+						value="${sessionScope.admin.nickname}" default="CMS-User" />
 				</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="dropdownMenuButton">

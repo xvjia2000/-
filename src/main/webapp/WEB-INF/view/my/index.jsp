@@ -28,18 +28,15 @@
 				<jsp:include page="/WEB-INF/view/my/left.jsp"></jsp:include>
 				<br />
 			</div>
+			
 			<div class="col-md-9 ">
 				<div id="center">
-
 					<!-- 内容区域 -->
 					<!--  把富文本编辑器的样式引入 -->
-
 					<div style="display: none">
 						<jsp:include page="/resource/kindeditor/jsp/demo.jsp"></jsp:include>
 					</div>
 				</div>
-
-				
 			</div>
 
 		</div>

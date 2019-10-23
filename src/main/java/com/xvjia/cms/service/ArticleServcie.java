@@ -1,12 +1,9 @@
 
 package com.xvjia.cms.service;
 
-import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.xvjia.cms.domain.Article;
-import com.xvjia.cms.domain.Comment;
-import com.xvjia.cms.domain.User;
 
 /**
  * @author xvjia

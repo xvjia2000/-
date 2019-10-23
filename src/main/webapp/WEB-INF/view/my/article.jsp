@@ -104,7 +104,6 @@
 						<textarea rows="10" cols="125" name="content" id="content"></textarea>
 					</form>
 					<button onclick="insert()" class="btn btn-primary">评论</button>
-
 				</c:if>
 				</form>
 			</div>

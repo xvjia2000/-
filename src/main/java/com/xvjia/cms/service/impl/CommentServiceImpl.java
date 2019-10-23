@@ -38,6 +38,8 @@ public class CommentServiceImpl implements CommentService {
 		
 		System.out.println("-------------------"+article);
 		int i = articleMapper.updatecomments(article);
+		
+		
 		System.out.println("--------------"+i);
 		
 		return commentMapper.insert(comment);

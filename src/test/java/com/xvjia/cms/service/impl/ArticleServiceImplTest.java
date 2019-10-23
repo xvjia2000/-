@@ -51,6 +51,9 @@ public class ArticleServiceImplTest {
 
 		File[] files = file.listFiles();
 
+		
+		System.out.println(files);
+		
 		for (File file2 : files) {
 			// 用工具类获取文件内容
 			String content = StreamUtil.readTextFile(file2);

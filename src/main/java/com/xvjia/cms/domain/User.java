@@ -39,8 +39,19 @@ public class User implements Serializable{
 
     private String role;
 
+    private String head_picture;
+        
+
     
-    private List<Article> articleList;
+    public String getHead_picture() {
+		return head_picture;
+	}
+
+	public void setHead_picture(String head_picture) {
+		this.head_picture = head_picture;
+	}
+
+	private List<Article> articleList;
     
    
 

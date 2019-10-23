@@ -15,6 +15,7 @@
 <body>
 	<jsp:include page="/WEB-INF/view/common/top.jsp"></jsp:include>
 
+
 	<div>
 		<br />
 	</div>
@@ -68,7 +69,7 @@
 									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
 									class="sr-only">Previous</span>
 								</a> <a class="carousel-control-next"
-									href="#carouselExampleCaptions" role="button" data-slide="next">
+									href="#carouselExampleCaptions" role="button" data-sli+de="next">
 									<span class="carousel-control-next-icon" aria-hidden="true"></span>
 									<span class="sr-only">Next</span>
 								</a>

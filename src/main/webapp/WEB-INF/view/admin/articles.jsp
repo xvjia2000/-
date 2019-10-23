@@ -94,6 +94,7 @@
 		//在新窗口打开
 		window.open(url,"_blank");
 		alert("asdf")
+		history.go(0);
 		$("#content-wrapper").load("/article/selectsByAdmin");
 	}
 	

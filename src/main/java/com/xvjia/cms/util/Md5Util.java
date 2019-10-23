@@ -23,7 +23,6 @@ public class Md5Util {
 		System.out.println(string);
 		System.out.println(string2);
 		
-		
 	}
 	
 }

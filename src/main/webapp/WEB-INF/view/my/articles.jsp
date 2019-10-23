@@ -13,13 +13,38 @@
 <link href="/resource/css/sb-admin.css" rel="stylesheet">
 </head>
 <!-- use the jQuery resource in html/jsp page -->
-<script
-	src="${pageContext.request.contextPath}/resource/js/jquery-1.8.2.min.js"></script>
+<%-- <script
+	src="${pageContext.request.contextPath}/resource/js/jquery-3.2.1.js"></script> --%>
+
+<script type="text/javascript" src="/resource/js/jquery-3.2.1.js"></script>
 
 
 <body>
+
+<script type="text/javascript">
+
+	function deleteArticle(a,b) {
+		 $.post("/article/deleteArticle",{
+			id:b,
+			deleted:a
+		},function (data){
+			if(data){
+				alert("成功");
+				 history.go(0)   ;
+			}
+		}) 
+	}
+</script>
 	<ul class="list-unstyled">
 		<c:forEach items="${articles }" var="a">
+			<div style="float: right;">
+				<c:if test="${a.deleted ==0}">
+					<button class="btn btn-light" onclick="deleteArticle(1,${a.id})">删除</button>
+				</c:if>
+				<c:if test="${a.deleted ==1}">
+					<button class="btn btn-light" onclick="deleteArticle(0,${a.id})">恢复</button>
+				</c:if>
+			</div>
 			<a href="javascript:myOpen(${a.id })"
 				style="text-decoration: none; color: #4f4f4f;">
 				<li class="media form-group"><img src="/pic/${a.picture }"
@@ -57,8 +82,12 @@
 			  $("#center").load(url);  
 		}
 	}
+	
+	
+	
 	</script>
 <script type="text/javascript">
+
 	function myOpen(id) {
 		var url = "/article/selectByUser?id=" + id;
 		//在新窗口打开

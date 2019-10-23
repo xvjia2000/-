@@ -42,7 +42,7 @@
 		$(function(){
 			$(".nav-link").click(function(){
 				var url = $(this).attr("data");
-				//在中间区域加载url
+				//在中间区域加载url0
 				$("#content-wrapper").load(url);
 			})
 		})

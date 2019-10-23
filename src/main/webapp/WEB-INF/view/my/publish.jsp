@@ -58,15 +58,15 @@
 
 		<textarea name="content1" cols="100" rows="8"
 			style="width: 700px; height: 200px; visibility: hidden;"><%=htmlspecialchars(htmlData)%></textarea>
-		<br /> 文章栏目：<select name="channelId" id="channel">
+		<br /> 文章栏目：<select class="custom-select mr-sm-2" name="channelId" id="channel">
 			<option value="0">选择栏目</option>
-		</select> 文章分类：<select name="categoryId" id="category">
+		</select> 文章分类：<select class="custom-select mr-sm-2" name="categoryId" id="category">
 			<option value="0">选择分类</option>
-		</select> <br> <br> 标题图片:<input type="file" name="file"> <br>
-		<br> <input type="button" name="button" value="提交内容"
-			onclick="publish()" class="btn btn-light" />
+		</select> <br> <br> 标题图片:<input type="file" name="file" class="form-control-file"> <br>
+		<br>
 	</form>
-
+	<input type="button" name="button" value="提交内容" onclick="publish()"
+		class="btn btn-light" />
 
 
 </body>
